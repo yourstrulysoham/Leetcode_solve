@@ -14,24 +14,19 @@
  * }
  */
 class Solution {
-    private record Pair(int sum, int cnt) {}
-    private int ans = 0; 
-    private Pair getAvg(TreeNode node) {
-        if(node == null) return new Pair(0, 0); 
-
-        Pair left = getAvg(node.left); 
-        Pair right = getAvg(node.right); 
-        int sum = left.sum + right.sum + node.val; 
-        int cnt = left.cnt + right.cnt + 1; 
-        int avg = sum / cnt; 
-        if(avg == node.val) ans++; 
-
-        return new Pair(sum, cnt); 
-    }
+    int result = 0;
     public int averageOfSubtree(TreeNode root) {
-        if (root == null) return 0;
-        ans = 0; 
-        getAvg(root); 
-        return ans; 
+        helper(root);
+        return result;
+    }
+    public int[] helper(TreeNode root){
+        if(root==null)return new int[]{0,0};
+        int[] left = helper(root.left);
+        int[] right = helper(root.right);
+        int sum = left[0]+right[0]+root.val;
+        int count = left[1]+right[1]+1;
+        int average = sum/count;
+        if(average == root.val)result++;
+        return new int[]{sum,count};
     }
 }
